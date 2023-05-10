@@ -8,7 +8,6 @@ colorama==0.4.6
 confection==0.0.4
 cymem==2.0.7
 docx2txt==0.8
-en-core-web-sm==3.5.0
 Flask==2.3.2
 idna==3.4
 importlib-metadata==6.6.0
