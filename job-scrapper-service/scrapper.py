@@ -59,21 +59,21 @@ class Scrapper:
         for i in range(0, 2, 1):
             driver.get('https://www.indeed.com/jobs?q=' + job_title + '&l=' + location + '&start=' + str(i))
             driver.implicitly_wait(randint(10, 30))
-
+            time.sleep(randint(1, 2))
             for job in driver.find_elements(By.CLASS_NAME, "result"):
-                # driver.implicitly_wait(20)
-                # time.sleep(randint(1, 4))
+                driver.implicitly_wait(30)
+                time.sleep(randint(1, 2))
                 soup = BeautifulSoup(job.get_attribute('innerHTML'), 'html.parser')
 
                 for data in soup(['style', 'script']):
                     data.decompose()
                 sum_div = job.find_element(By.CLASS_NAME, "job_seen_beacon")
-                try:
-                    sum_div.click()
-                except:
-                    close_button = driver.find_element(By.CLASS_NAME, 'popover-x-button-close')[0]
-                    close_button.click()
-                    sum_div.click()
+                # try:
+                #     sum_div.click()
+                # except:
+                #     close_button = driver.find_element(By.CLASS_NAME, 'popover-x-button-close')[0]
+                #     close_button.click()
+                #     sum_div.click()
                 job_desc = driver.find_element(By.ID, 'jobDescriptionText').text
                 skills_list = self.extract_skills(job_desc)
                 cnt = cnt + 1
@@ -84,7 +84,8 @@ class Scrapper:
         if len(skills_list) != 0:
             skills.append([job_title, skills_list])
         driver.close()
-        self.db.add_to_db(job_title, location, ','.join(skills[0][1]))
+        print(skills)
+        #self.db.add_to_db(job_title, location, ','.join(skills[0][1]))
         return skills
 
     def scrape_all_jobs(self):
@@ -116,12 +117,12 @@ class Scrapper:
                     for data in soup(['style', 'script']):
                         data.decompose()
                     sum_div = job.find_element(By.CLASS_NAME, "job_seen_beacon")
-                    try:
-                        sum_div.click()
-                    except:
-                        close_button = driver.find_element(By.CLASS_NAME, 'popover-x-button-close')[0]
-                        close_button.click()
-                        sum_div.click()
+                    # try:
+                    #     sum_div.click()
+                    # except:
+                    #     close_button = driver.find_element(By.CLASS_NAME, 'popover-x-button-close')[0]
+                    #     close_button.click()
+                    #     sum_div.click()
                     job_desc = driver.find_element(By.ID, 'jobDescriptionText').text
                     sl = self.extract_skills(job_desc)
                     if len(sl) != 0:

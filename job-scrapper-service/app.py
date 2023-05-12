@@ -12,23 +12,24 @@ Job Scrapper service
 scrapper = None
 
 
-@app.route('/job', methods=['POST'])
+@app.route('/v1/job', methods=['POST', 'GET'])
 def scrape_job():
     # check if the post request has the file part
     args = request.args
-    job_title = args.get("job_title").lower().strip()
 
-    if job_title is None or len(job_title) == 0:
+    if args.get("job_title") is None or len(args.get("job_title")) == 0:
         resp = jsonify({'message': 'No job title in the request'})
         resp.status_code = 400
         return resp
 
-    location = args.get("location").lower().strip()
+    job_title = args.get("job_title").lower().strip()
 
-    if job_title is None or len(job_title) == 0:
+    if args.get("location") is None or len( args.get("location")) == 0:
         resp = jsonify({'message': 'No location in the request'})
         resp.status_code = 400
         return resp
+
+    location = args.get("location").lower().strip()
 
     skills = scrapper.scrape_skills(job_title, location)
     resp = jsonify({'skills': skills})

@@ -6,11 +6,11 @@ class DBActions:
 
     def __init__(self):
         self.connection = psycopg2.connect(
-            host='localhost',
-            port=5432,
-            user='postgres',
-            password='root',
-            database='postgres'
+            host='',
+            port='',
+            user='',
+            password='',
+            database=''
         )
         cursor = self.connection.cursor()
 

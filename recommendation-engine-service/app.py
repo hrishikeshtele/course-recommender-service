@@ -10,14 +10,14 @@ Recommendation service
 """
 
 
-@app.route('/v1/predict', methods=['POST'])
+@app.route('/v1/predict', methods=['POST', 'GET'])
 def predict_v1():
-    if request.form['skills'] is None:
+    args = request.args
+    if args.get('skills') is None or len(args.get('skills')) ==0:
         resp = jsonify({'message': 'No skills in the request'})
         resp.status_code = 400
         return resp
-
-    output = REngine.create_sim(request.form['skills'])
+    output = REngine.create_sim(args.get('skills'))
     if output.empty:
         resp = jsonify({'message': 'No courses found'})
         resp.status_code = 404
